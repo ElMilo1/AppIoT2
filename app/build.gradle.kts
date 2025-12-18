@@ -40,19 +40,22 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    
-    // Firebase BoM
+
+    // Firebase BOM
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    // Firebase Dependencies
+
+    // Firebase
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
 
-    // Coroutines (already here, but good to keep)
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
     testImplementation(libs.junit)

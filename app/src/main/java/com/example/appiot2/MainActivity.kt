@@ -40,11 +40,9 @@ class MainActivity : AppCompatActivity() {
 
         username = intent.getStringExtra("USERNAME")
         
-        // Initialize Firebase Database
         database = Firebase.database
         devicesStateRef = database.getReference("estado_dispositivos")
 
-        // Initialize UI components
         switchFacadeLights = findViewById(R.id.switchFacadeLights)
         textViewFacadeLightsStatus = findViewById(R.id.textViewFacadeLightsStatus)
         buttonOpenGate = findViewById(R.id.buttonOpenGate)
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         setupFacadeLights()
         setupGateControls()
-        setupNavigationButtons()
+        setupNavigationButtons() // This function will now work correctly
         attachDatabaseReadListener()
     }
 
@@ -80,8 +78,6 @@ class MainActivity : AppCompatActivity() {
     private fun attachDatabaseReadListener() {
         listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 val lightsOn = snapshot.child("luces_fachada_on").getValue(Boolean::class.java) ?: false
                 val gateOpen = snapshot.child("porton_abierto").getValue(Boolean::class.java) ?: false
                 updateUI(lightsOn, gateOpen)
@@ -95,7 +91,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(lightsOn: Boolean, gateOpen: Boolean) {
-        // Update Facade Lights UI
         switchFacadeLights.isChecked = lightsOn
         if (lightsOn) {
             textViewFacadeLightsStatus.text = "Estado: Encendidas"
@@ -105,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             textViewFacadeLightsStatus.setTextColor(Color.RED)
         }
 
-        // Update Gate UI
         if (gateOpen) {
             textViewGateStatus.text = "Estado: Abierto"
             textViewGateStatus.setTextColor(Color.parseColor("#4CAF50")) // Green
@@ -118,18 +112,38 @@ class MainActivity : AppCompatActivity() {
     private fun logAction(action: String) {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val timestamp = sdf.format(Date())
-        val logEntry = "$timestamp - $action"
+        val logEntry = "$timestamp - $action por $username"
 
         database.getReference("historial").push().setValue(logEntry)
     }
 
     private fun setupNavigationButtons() {
-        // Omitted for brevity - your existing navigation code is fine
+        // This function is now correctly filled
+        findViewById<Button>(R.id.buttonScheduleNotifications).setOnClickListener {
+            startActivity(Intent(this, ScheduleNotificationsActivity::class.java))
+        }
+        findViewById<Button>(R.id.buttonScheduleLights).setOnClickListener {
+            startActivity(Intent(this, ScheduleLightsActivity::class.java))
+        }
+        findViewById<Button>(R.id.buttonSetDistance).setOnClickListener {
+            startActivity(Intent(this, SetDistanceActivity::class.java))
+        }
+        findViewById<Button>(R.id.buttonViewSummary).setOnClickListener {
+            val intent = Intent(this, SummaryActivity::class.java)
+            intent.putExtra("USERNAME", username)
+            startActivity(intent)
+        }
+        findViewById<Button>(R.id.buttonActionHistory).setOnClickListener {
+            startActivity(Intent(this, ActionHistoryActivity::class.java))
+        }
+        findViewById<Switch>(R.id.switchAutomaticMode).setOnCheckedChangeListener { _, isChecked ->
+            val message = if (isChecked) "Modo automático activado" else "Modo automático desactivado"
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Detach the listener to avoid memory leaks
         if (listener != null) {
             devicesStateRef.removeEventListener(listener!!)
         }
