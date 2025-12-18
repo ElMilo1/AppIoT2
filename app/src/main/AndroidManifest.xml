@@ -28,6 +28,7 @@
         <activity android:name=".ScheduleLightsActivity" />
         <activity android:name=".SetDistanceActivity" />
         <activity android:name=".SummaryActivity" />
+        <activity android:name=".ActionHistoryActivity" />
     </application>
 
 </manifest>

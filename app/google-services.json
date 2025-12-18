@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "608248920788",
+    "project_id": "iot3-31836",
+    "storage_bucket": "iot3-31836.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608248920788:android:520b7281a4436961e51941",
+        "android_client_info": {
+          "package_name": "Eva3.IoT"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSKckTj4Ll2RgFS1PEe0oKWoNJE29QYhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,65 +6,151 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Main Title -->
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Control de Portón y Luces"
-        android:textSize="24sp"
+        android:text="Panel de Control"
+        android:textSize="34sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp"/>
 
-    <Switch
-        android:id="@+id/switchAutomaticMode"
+    <!-- Facade Lights Control -->
+    <TextView
+        android:id="@+id/textViewFacadeLightsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modo Automático"
+        android:text="Luces de Fachada"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchFacadeLights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewFacadeLightsLabel"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="32dp"/>
+
+    <TextView
+        android:id="@+id/textViewFacadeLightsStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado: Apagadas"
+        app:layout_constraintTop_toBottomOf="@id/textViewFacadeLightsLabel"
+        app:layout_constraintStart_toStartOf="@id/textViewFacadeLightsLabel"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Gate Control -->
+    <TextView
+        android:id="@+id/textViewGateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Portón Principal"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFacadeLightsStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"/>
 
-    <Button
-        android:id="@+id/buttonScheduleNotifications"
+    <LinearLayout
+        android:id="@+id/gateButtonsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Programar Notificaciones"
-        app:layout_constraintTop_toBottomOf="@id/switchAutomaticMode"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintBaseline_toBaselineOf="@id/textViewGateLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginEnd="32dp">
 
-    <Button
-        android:id="@+id/buttonScheduleLights"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Programar Luces"
-        app:layout_constraintTop_toBottomOf="@id/buttonScheduleNotifications"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/buttonOpenGate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Abrir"/>
 
-    <Button
-        android:id="@+id/buttonSetDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Programar Distancia"
-        app:layout_constraintTop_toBottomOf="@id/buttonScheduleLights"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        <Button
+            android:id="@+id/buttonCloseGate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Cerrar"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonViewSummary"
+    <TextView
+        android:id="@+id/textViewGateStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ver Resumen"
-        app:layout_constraintTop_toBottomOf="@id/buttonSetDistance"
+        android:text="Estado: Cerrado"
+        app:layout_constraintTop_toBottomOf="@id/textViewGateLabel"
+        app:layout_constraintStart_toStartOf="@id/textViewGateLabel"
+        android:layout_marginTop="8dp"/>
+
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@id/textViewGateStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="40dp"/>
+
+    <!-- Settings and History Buttons -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp">
+
+        <Switch
+            android:id="@+id/switchAutomaticMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modo Automático"/>
+
+        <Button
+            android:id="@+id/buttonScheduleNotifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Programar Notificaciones"/>
+
+        <Button
+            android:id="@+id/buttonScheduleLights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Programar Luces"/>
+
+        <Button
+            android:id="@+id/buttonSetDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Programar Distancia"/>
+
+        <Button
+            android:id="@+id/buttonViewSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ver Resumen"/>
+
+        <Button
+            android:id="@+id/buttonActionHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Historial de Acciones"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
