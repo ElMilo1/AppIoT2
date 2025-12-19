@@ -25,14 +25,17 @@ class MainActivity : AppCompatActivity() {
     private var username: String? = null
     private lateinit var database: FirebaseDatabase
     private lateinit var devicesStateRef: DatabaseReference
+    private lateinit var configRef: DatabaseReference
 
     private lateinit var switchFacadeLights: SwitchMaterial
     private lateinit var textViewFacadeLightsStatus: TextView
     private lateinit var buttonOpenGate: Button
     private lateinit var buttonCloseGate: Button
     private lateinit var textViewGateStatus: TextView
+    private lateinit var switchAutomaticMode: Switch
 
-    private var listener: ValueEventListener? = null
+    private var deviceListener: ValueEventListener? = null
+    private var configListener: ValueEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,17 +45,19 @@ class MainActivity : AppCompatActivity() {
         
         database = Firebase.database
         devicesStateRef = database.getReference("estado_dispositivos")
+        configRef = database.getReference("configuraciones")
 
         switchFacadeLights = findViewById(R.id.switchFacadeLights)
         textViewFacadeLightsStatus = findViewById(R.id.textViewFacadeLightsStatus)
         buttonOpenGate = findViewById(R.id.buttonOpenGate)
         buttonCloseGate = findViewById(R.id.buttonCloseGate)
         textViewGateStatus = findViewById(R.id.textViewGateStatus)
+        switchAutomaticMode = findViewById(R.id.switchAutomaticMode)
 
         setupFacadeLights()
         setupGateControls()
-        setupNavigationButtons() // This function will now work correctly
-        attachDatabaseReadListener()
+        setupNavigationButtons()
+        attachDatabaseReadListeners()
     }
 
     private fun setupFacadeLights() {
@@ -75,22 +80,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun attachDatabaseReadListener() {
-        listener = object : ValueEventListener {
+    private fun attachDatabaseReadListeners() {
+        deviceListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val lightsOn = snapshot.child("luces_fachada_on").getValue(Boolean::class.java) ?: false
                 val gateOpen = snapshot.child("porton_abierto").getValue(Boolean::class.java) ?: false
-                updateUI(lightsOn, gateOpen)
+                updateDeviceUI(lightsOn, gateOpen)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(baseContext, "Failed to read value. ${error.toException()}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(baseContext, "Failed to read device state. ${error.toException()}", Toast.LENGTH_SHORT).show()
             }
         }
-        devicesStateRef.addValueEventListener(listener!!)
+        devicesStateRef.addValueEventListener(deviceListener!!)
+
+        configListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val autoModeOn = snapshot.child("modo_automatico_on").getValue(Boolean::class.java) ?: false
+                updateConfigUI(autoModeOn)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(baseContext, "Failed to read config state. ${error.toException()}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        configRef.addValueEventListener(configListener!!)
     }
 
-    private fun updateUI(lightsOn: Boolean, gateOpen: Boolean) {
+    private fun updateDeviceUI(lightsOn: Boolean, gateOpen: Boolean) {
         switchFacadeLights.isChecked = lightsOn
         if (lightsOn) {
             textViewFacadeLightsStatus.text = "Estado: Encendidas"
@@ -108,6 +125,10 @@ class MainActivity : AppCompatActivity() {
             textViewGateStatus.setTextColor(Color.RED)
         }
     }
+    
+    private fun updateConfigUI(autoModeOn: Boolean) {
+        switchAutomaticMode.isChecked = autoModeOn
+    }
 
     private fun logAction(action: String) {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -118,7 +139,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigationButtons() {
-        // This function is now correctly filled
+        findViewById<Button>(R.id.buttonControlSensors).setOnClickListener {
+            startActivity(Intent(this, ControlSensoresActivity::class.java))
+        }
         findViewById<Button>(R.id.buttonScheduleNotifications).setOnClickListener {
             startActivity(Intent(this, ScheduleNotificationsActivity::class.java))
         }
@@ -136,7 +159,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.buttonActionHistory).setOnClickListener {
             startActivity(Intent(this, ActionHistoryActivity::class.java))
         }
-        findViewById<Switch>(R.id.switchAutomaticMode).setOnCheckedChangeListener { _, isChecked ->
+        // Corrected the typo and added Firebase integration
+        switchAutomaticMode.setOnCheckedChangeListener { _, isChecked ->
+            configRef.child("modo_automatico_on").setValue(isChecked)
             val message = if (isChecked) "Modo automático activado" else "Modo automático desactivado"
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
@@ -144,8 +169,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (listener != null) {
-            devicesStateRef.removeEventListener(listener!!)
+        if (deviceListener != null) {
+            devicesStateRef.removeEventListener(deviceListener!!)
+        }
+        if (configListener != null) {
+            configRef.removeEventListener(configListener!!)
         }
     }
 }

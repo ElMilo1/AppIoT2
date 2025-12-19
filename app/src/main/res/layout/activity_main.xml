@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Luces de Fachada"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"/>
@@ -43,8 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Estado: Apagadas"
-        app:layout_constraintTop_toBottomOf="@id/textViewFacadeLightsLabel"
-        app:layout_constraintStart_toStartOf="@id/textViewFacadeLightsLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFacadeLightsLabel"
+        app:layout_constraintStart_toStartOf="@+id/textViewFacadeLightsLabel"
         android:layout_marginTop="8dp"/>
 
     <!-- Gate Control -->
@@ -64,18 +64,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBaseline_toBaselineOf="@id/textViewGateLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="32dp">
+        app:layout_constraintStart_toEndOf="@+id/textViewGateLabel"
+        app:layout_constraintTop_toTopOf="@+id/textViewGateLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewGateLabel"
+        android:layout_marginStart="16dp">
 
         <Button
             android:id="@+id/buttonOpenGate"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Abrir"/>
 
         <Button
             android:id="@+id/buttonCloseGate"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -87,8 +90,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Estado: Cerrado"
-        app:layout_constraintTop_toBottomOf="@id/textViewGateLabel"
-        app:layout_constraintStart_toStartOf="@id/textViewGateLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGateLabel"
+        app:layout_constraintStart_toStartOf="@+id/textViewGateLabel"
         android:layout_marginTop="8dp"/>
 
 
@@ -98,7 +101,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@id/textViewGateStatus"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGateStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="40dp"/>
@@ -120,6 +123,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modo Automático"/>
+
+        <Button
+            android:id="@+id/buttonControlSensors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Control de Sensores"/>
 
         <Button
             android:id="@+id/buttonScheduleNotifications"

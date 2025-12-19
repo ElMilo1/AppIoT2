@@ -29,6 +29,7 @@
         <activity android:name=".SetDistanceActivity" />
         <activity android:name=".SummaryActivity" />
         <activity android:name=".ActionHistoryActivity" />
+        <activity android:name=".ControlSensoresActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ControlSensoresActivity">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Control de Sensores"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <!-- Sensor for Facade Lights -->
+    <TextView
+        android:id="@+id/textViewSensorLightsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activar sensor de luces"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchSensorLights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSensorLightsLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="32dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Si está activo, el sensor IR 1 encenderá las luces de la fachada al detectar movimiento."
+        app:layout_constraintTop_toBottomOf="@+id/textViewSensorLightsLabel"
+        app:layout_constraintStart_toStartOf="@+id/textViewSensorLightsLabel"
+        app:layout_constraintEnd_toEndOf="@+id/switchSensorLights"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Sensor for Gate -->
+    <TextView
+        android:id="@+id/textViewSensorGateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activar sensor de portón"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/switchSensorLights"
+        android:layout_marginTop="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchSensorGate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSensorGateLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="32dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Si está activo, el sensor IR 2 abrirá el portón al detectar movimiento."
+        app:layout_constraintTop_toBottomOf="@+id/textViewSensorGateLabel"
+        app:layout_constraintStart_toStartOf="@+id/textViewSensorGateLabel"
+        app:layout_constraintEnd_toEndOf="@+id/switchSensorGate"
+        android:layout_marginTop="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
